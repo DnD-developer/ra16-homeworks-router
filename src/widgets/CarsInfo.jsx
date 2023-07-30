@@ -1,7 +1,7 @@
-import HomePage from "../pages/Homepage"
-import DriftPage from "../pages/Driftpage"
-import ForzaPage from "../pages/ForzaPage"
-import TimeAttackPage from "../pages/TimeAttackPage"
+import HomePage from "../pages/CarsInfo/Homepage"
+import DriftPage from "../pages/CarsInfo/Driftpage"
+import ForzaPage from "../pages/CarsInfo/ForzaPage"
+import TimeAttackPage from "../pages/CarsInfo/TimeAttackPage"
 import { Route, Routes } from "react-router-dom"
 import Menu from "../components/Menu/Menu"
 
