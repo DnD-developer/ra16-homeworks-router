@@ -2,27 +2,28 @@ import { useEffect } from "react"
 import { request } from "../service/request"
 import { useState } from "react"
 
-export function useRequest(url, firstLoad = true) {
+export function useRequest({ url, sendApprove = true, body = null, method = "GET" }) {
 	const [stateLoading, setStateLoading] = useState()
 	const [data, setData] = useState([])
 	const [error, setError] = useState()
 
 	useEffect(() => {
-		if (firstLoad) {
+		if (sendApprove) {
 			;(async () => {
 				setStateLoading(true)
 
 				try {
-					const response = await request(url)
+					const response = await request(url, method, body)
 					setData(response)
 				} catch (error) {
+					console.log(error)
 					setError(error)
 				} finally {
 					setStateLoading(false)
 				}
 			})()
 		}
-	}, [url])
+	}, [body, url])
 
 	return { stateLoading, data, error }
 }
