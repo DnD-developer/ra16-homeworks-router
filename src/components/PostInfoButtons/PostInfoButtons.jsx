@@ -9,7 +9,9 @@ export function ButtonsManipulationPosts({ text, color = "blue", onClick, id = 0
 	const onClickHandler = () => {
 		onClick(id)
 
-		setTransit(true)
+		if (url) {
+			setTransit(true)
+		}
 	}
 
 	return (

@@ -1,17 +1,17 @@
+// utils
 import { useEffect } from "react"
-import { request } from "../service/request"
 import { useState } from "react"
+//services
+import { request } from "../service/request"
 
 export function useRequest({ url, sendApprove = true, body = null, method = "GET" }) {
-	const [stateLoading, setStateLoading] = useState()
+	const [stateLoading, setStateLoading] = useState(true)
 	const [data, setData] = useState([])
 	const [error, setError] = useState()
 
 	useEffect(() => {
 		if (sendApprove) {
 			;(async () => {
-				setStateLoading(true)
-
 				try {
 					const response = await request(url, method, body)
 					setData(response)
@@ -25,5 +25,5 @@ export function useRequest({ url, sendApprove = true, body = null, method = "GET
 		}
 	}, [body, url])
 
-	return { stateLoading, data, error }
+	return { stateLoading: !sendApprove && stateLoading ? false : stateLoading, data, error }
 }

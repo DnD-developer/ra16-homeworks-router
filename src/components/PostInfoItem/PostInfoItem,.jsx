@@ -1,13 +1,19 @@
+//assets
 import "./PostInfoItem.css"
-import calcTime from "../../service/calcTime"
+//utils
 import { useState } from "react"
 import { Navigate } from "react-router-dom"
+//services
+import calcTime from "../../service/calcTime"
+
 export default function PostInfoItem({ id, content, created }) {
 	const url = `/posts/${id}`
 	const [transit, setTransit] = useState(false)
 
 	const onClickHandler = () => {
-		setTransit(true)
+		if (id != 0) {
+			setTransit(true)
+		}
 	}
 
 	return (

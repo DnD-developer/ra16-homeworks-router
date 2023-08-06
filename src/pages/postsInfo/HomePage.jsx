@@ -4,7 +4,7 @@ import PostInfoItem from "../../components/PostInfoItem/PostInfoItem,"
 import { PanelForButtonsManipulationPosts, ButtonsManipulationPosts } from "../../components/PostInfoButtons/PostInfoButtons"
 
 export default function HomePage() {
-	const { stateLoading, data } = useRequest({ url: "https://back-test-0fmn.onrender.com/posts" })
+	const { stateLoading, data } = useRequest({ url: "https://back-test-guau.onrender.com/posts" })
 
 	return (
 		<>
