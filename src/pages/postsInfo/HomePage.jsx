@@ -20,7 +20,7 @@ export default function HomePage() {
 							return posts.map(({ id, content, created }) => <PostInfoItem key={id} id={id} content={content} created={created} />)
 						}
 
-						return <PostInfoItem key={0} content={"нет постов"} created={Date.now()} />
+						return <PostInfoItem key={0} content={"нет постов"} id={0} created={Date.now()} />
 					}}
 				</PostInfoList>
 			)}

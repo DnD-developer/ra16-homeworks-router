@@ -2,12 +2,12 @@ import { useState } from "react"
 import "./PostInfoButtons.css"
 import { Navigate } from "react-router-dom"
 
-export function ButtonsManipulationPosts({ text, color = "blue", onClick, id = 0, url, loading = true }) {
+export function ButtonsManipulationPosts({ text, color = "blue", onClick, url, loading = true }) {
 	const classes = `buttons-manipulation-posts ${color}`
 	const [transit, setTransit] = useState(false)
 
 	const onClickHandler = () => {
-		onClick(id)
+		onClick()
 
 		if (url) {
 			setTransit(true)

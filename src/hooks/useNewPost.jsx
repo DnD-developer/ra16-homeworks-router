@@ -12,8 +12,8 @@ export default function useNewPost({ postId = "", method = "POST", url }) {
 	const { stateLoading, data } = useRequest({ url, sendApprove, method, body })
 	const [inputNewPost, setInputNewPost] = useInput()
 
-	const onNewPost = () => {
-		if (inputNewPost.trim()) {
+	const onNewPost = methodTrigger => {
+		if (inputNewPost.trim() || methodTrigger == "DELETE") {
 			const id = postId || uuid4()
 			setBody({ id, content: inputNewPost })
 			setSendApprove(true)

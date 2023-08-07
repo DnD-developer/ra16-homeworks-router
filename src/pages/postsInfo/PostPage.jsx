@@ -25,11 +25,15 @@ export default function PostPage() {
 
 	const { stateLoading, data } = useRequest({ url: `https://back-test-guau.onrender.com/posts/${id}` })
 
-	const setEditHandler = flag => {
-		setEdit(flag)
+	const deletePost = () => {
+		setMethod("DELETE")
+		onNewPost("DELETE")
 	}
 
-	const deletePost = {}
+	const saveEdit = () => {
+		setMethod("PUT")
+		onNewPost()
+	}
 
 	return (
 		<>
@@ -46,23 +50,46 @@ export default function PostPage() {
 			)}
 
 			<PanelForButtonsManipulationPosts>
-				<ButtonsManipulationPosts
-					text="Изменить"
-					onClick={() => {
-						setInputNewPost(data.post.content)
-						setEditHandler(true)
-					}}
-					loading={false}
-				/>
-				<ButtonsManipulationPosts
-					text="Удалить пост"
-					color="red"
-					onClick={() => {
-						setEdit(true)
-					}}
-					url={"/posts"}
-					loading={stateLoading}
-				/>
+				{!edit ? (
+					<>
+						<ButtonsManipulationPosts
+							text="Изменить"
+							onClick={() => {
+								setInputNewPost(data.post.content)
+								setEdit(true)
+							}}
+							loading={false}
+						/>
+						<ButtonsManipulationPosts
+							text="Удалить пост"
+							color="red"
+							onClick={() => {
+								deletePost()
+							}}
+							url={"/"}
+							loading={sendPostLoading}
+						/>
+					</>
+				) : (
+					<>
+						<ButtonsManipulationPosts
+							text="Сохранить"
+							onClick={() => {
+								saveEdit()
+							}}
+							url={"/"}
+							loading={sendPostLoading}
+						/>
+						<ButtonsManipulationPosts
+							text="Отменить"
+							color="red"
+							onClick={() => {
+								setEdit(false)
+							}}
+							loading={false}
+						/>
+					</>
+				)}
 			</PanelForButtonsManipulationPosts>
 		</>
 	)

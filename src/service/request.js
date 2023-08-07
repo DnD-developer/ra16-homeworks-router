@@ -6,7 +6,7 @@ export async function request(url, method, body) {
 			"Content-Type": "application/json"
 		}
 	})
-	const data = await (method == "POST" ? response.text() : response.json())
+	const data = await (method != "GET" ? response.text() : response.json())
 
 	return data
 }
