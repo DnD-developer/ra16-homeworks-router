@@ -1,13 +1,22 @@
+//styles
 import "./Menu.css"
+//constants
+import { pathRouters } from "../../shared/CarsInfo/pathRouters"
+//components
 import MenuItem from "../MenuItem/MenuItem"
 
 export default function Menu() {
+	const pages = [
+		{ pageName: "Главная страница", path: pathRouters.homePage },
+		{ pageName: "Дрифт - такси", path: pathRouters.driftPage },
+		{ pageName: "Time Attac", path: pathRouters.timeAttackPage },
+		{ pageName: "Forza Karting", path: pathRouters.forzaPage }
+	]
 	return (
 		<nav className="menu">
-			<MenuItem customeClass="menu__item" activeCustomClass="menu__item-active" text="Главная страница" path="/" />
-			<MenuItem customeClass="menu__item" activeCustomClass="menu__item-active" text="Дрифт-такси" path="/drift" />
-			<MenuItem customeClass="menu__item" activeCustomClass="menu__item-active" text="Time Attac" path="/timeattack" />
-			<MenuItem customeClass="menu__item" activeCustomClass="menu__item-active" text="Forza Karting" path="/forza" />
+			{pages.map(({ pageName, path }, i) => (
+				<MenuItem key={i} customeClass="menu__item" activeCustomClass="menu__item-active" text={pageName} path={path} />
+			))}
 		</nav>
 	)
 }

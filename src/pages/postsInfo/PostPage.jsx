@@ -1,6 +1,9 @@
-//utilsquest"
+//utils"
 import { useParams } from "react-router-dom"
 import { useState } from "react"
+//constants
+import { pathServer } from "../../shared/postInfo/pathServer"
+import { pathRouters } from "../../shared/postInfo/pathRouters"
 // hooks
 import useNewPost from "../../hooks/useNewPost"
 import { useRequest } from "../../hooks/useRequest"
@@ -15,81 +18,87 @@ export default function PostPage() {
 	const { id } = useParams()
 	const [edit, setEdit] = useState(false)
 	const [method, setMethod] = useState("POST")
+	const [transit, setTransit] = useState(false)
 
 	const {
 		stateLoading: sendPostLoading,
 		inputNewPost,
 		setInputNewPost,
 		onNewPost
-	} = useNewPost({ url: `https://back-test-guau.onrender.com/posts/${id}`, method, postId: id })
+	} = useNewPost({ url: `${pathServer.home}${id}`, method, postId: id })
 
-	const { stateLoading, data } = useRequest({ url: `https://back-test-guau.onrender.com/posts/${id}` })
+	const { stateLoading, data } = useRequest({ url: `${pathServer.home}${id}` })
 
 	const deletePost = () => {
 		setMethod("DELETE")
 		onNewPost("DELETE")
+		setTransit(true)
 	}
 
 	const saveEdit = () => {
 		setMethod("PUT")
 		onNewPost()
+		setTransit(true)
+	}
+
+	if (stateLoading || sendPostLoading) {
+		return <h1>Загрузка</h1>
+	}
+
+	if (edit) {
+		return (
+			<>
+				<PostInfoNewPost text={inputNewPost} onChange={setInputNewPost} />
+				<PanelForButtonsManipulationPosts>
+					<ButtonsManipulationPosts
+						text="Сохранить"
+						onClick={() => {
+							saveEdit()
+						}}
+						url={pathRouters.homePage}
+						loading={sendPostLoading}
+						transit={transit}
+					/>
+					<ButtonsManipulationPosts
+						text="Отменить"
+						color="red"
+						onClick={() => {
+							setEdit(false)
+						}}
+						loading={false}
+					/>
+				</PanelForButtonsManipulationPosts>
+			</>
+		)
 	}
 
 	return (
 		<>
-			{stateLoading || sendPostLoading ? (
-				<h1>Загрузка</h1>
-			) : !edit ? (
-				<PostInfoList data={data}>
-					{data => {
-						return <PostInfoItem id={data.post.id} content={data.post.content} created={data.post.created} />
-					}}
-				</PostInfoList>
-			) : (
-				<PostInfoNewPost text={inputNewPost} onChange={setInputNewPost} />
-			)}
+			<PostInfoList data={data}>
+				{data => {
+					return <PostInfoItem id={data.post.id} content={data.post.content} created={data.post.created} />
+				}}
+			</PostInfoList>
 
 			<PanelForButtonsManipulationPosts>
-				{!edit ? (
-					<>
-						<ButtonsManipulationPosts
-							text="Изменить"
-							onClick={() => {
-								setInputNewPost(data.post.content)
-								setEdit(true)
-							}}
-							loading={false}
-						/>
-						<ButtonsManipulationPosts
-							text="Удалить пост"
-							color="red"
-							onClick={() => {
-								deletePost()
-							}}
-							url={"/"}
-							loading={sendPostLoading}
-						/>
-					</>
-				) : (
-					<>
-						<ButtonsManipulationPosts
-							text="Сохранить"
-							onClick={() => {
-								saveEdit()
-							}}
-							url={"/"}
-							loading={sendPostLoading}
-						/>
-						<ButtonsManipulationPosts
-							text="Отменить"
-							color="red"
-							onClick={() => {
-								setEdit(false)
-							}}
-							loading={false}
-						/>
-					</>
-				)}
+				<ButtonsManipulationPosts
+					text="Изменить"
+					onClick={() => {
+						setInputNewPost(data.post.content)
+						setEdit(true)
+					}}
+					loading={false}
+				/>
+				<ButtonsManipulationPosts
+					text="Удалить пост"
+					color="red"
+					onClick={() => {
+						deletePost()
+					}}
+					url={pathRouters.homePage}
+					loading={sendPostLoading}
+					transit={transit}
+				/>
 			</PanelForButtonsManipulationPosts>
 		</>
 	)
