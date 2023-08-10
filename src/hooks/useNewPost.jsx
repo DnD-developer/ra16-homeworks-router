@@ -1,15 +1,19 @@
 // utils
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import uuid4 from "uuid4"
 //hooks
 import { useRequest } from "./useRequest"
 import useInput from "./useInput"
 
-export default function useNewPost({ postId = "", method = "POST", url }) {
+export default function useNewPost({ postId = "", method = "POST", url, pageUrl }) {
 	const [sendApprove, setSendApprove] = useState(false)
 	const [body, setBody] = useState({})
+	const navigate = useNavigate()
 
-	const { stateLoading, data } = useRequest({ url, sendApprove, method, body })
+	const transitPage = () => navigate(pageUrl)
+
+	const { stateLoading, data } = useRequest({ url, sendApprove, method, body, finallyAction: transitPage })
 	const [inputNewPost, setInputNewPost] = useInput()
 
 	const onNewPost = methodTrigger => {
