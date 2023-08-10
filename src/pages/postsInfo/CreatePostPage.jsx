@@ -6,15 +6,12 @@ import { pathServer } from "../../shared/postInfo/pathServer"
 //Components
 import { PanelForButtonsManipulationPosts, ButtonsManipulationPosts } from "../../components/PostInfoButtons/PostInfoButtons"
 import { PostInfoNewPost } from "../../components/PostInfoNewPost/PostInfoNewPost"
-import { useState } from "react"
 
 export default function CreatePostPage() {
-	const { stateLoading, inputNewPost, setInputNewPost, onNewPost } = useNewPost({ url: pathServer.home })
-	const [transit, setTransit] = useState(false)
+	const { stateLoading, inputNewPost, setInputNewPost, onNewPost } = useNewPost({ url: pathServer.home, pageUrl: pathRouters.homePage })
 
 	const onCreate = () => {
 		onNewPost()
-		setTransit(true)
 	}
 
 	if (stateLoading) {
@@ -30,7 +27,7 @@ export default function CreatePostPage() {
 			<PostInfoNewPost text={inputNewPost} onChange={setInputNewPost} />
 
 			<PanelForButtonsManipulationPosts>
-				<ButtonsManipulationPosts text="Опубликовать пост" onClick={onCreate} url={"/"} loading={stateLoading} transit={transit} />
+				<ButtonsManipulationPosts text="Опубликовать пост" onClick={onCreate} />
 			</PanelForButtonsManipulationPosts>
 		</>
 	)

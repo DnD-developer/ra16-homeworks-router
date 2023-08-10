@@ -4,7 +4,7 @@ import { useState } from "react"
 //services
 import { request } from "../service/request"
 
-export function useRequest({ url, sendApprove = true, body = null, method = "GET" }) {
+export function useRequest({ url, sendApprove = true, body = null, method = "GET", finallyAction = () => {} }) {
 	const [stateLoading, setStateLoading] = useState(true)
 	const [data, setData] = useState([])
 	const [error, setError] = useState()
@@ -19,6 +19,7 @@ export function useRequest({ url, sendApprove = true, body = null, method = "GET
 					console.log(error)
 					setError(error)
 				} finally {
+					finallyAction()
 					setStateLoading(false)
 				}
 			})()

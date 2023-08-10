@@ -25,20 +25,18 @@ export default function PostPage() {
 		inputNewPost,
 		setInputNewPost,
 		onNewPost
-	} = useNewPost({ url: `${pathServer.home}${id}`, method, postId: id })
+	} = useNewPost({ url: `${pathServer.home}${id}`, method, postId: id, pageUrl: pathRouters.homePage })
 
 	const { stateLoading, data } = useRequest({ url: `${pathServer.home}${id}` })
 
 	const deletePost = () => {
 		setMethod("DELETE")
 		onNewPost("DELETE")
-		setTransit(true)
 	}
 
 	const saveEdit = () => {
 		setMethod("PUT")
 		onNewPost()
-		setTransit(true)
 	}
 
 	if (stateLoading || sendPostLoading) {
@@ -50,22 +48,13 @@ export default function PostPage() {
 			<>
 				<PostInfoNewPost text={inputNewPost} onChange={setInputNewPost} />
 				<PanelForButtonsManipulationPosts>
-					<ButtonsManipulationPosts
-						text="Сохранить"
-						onClick={() => {
-							saveEdit()
-						}}
-						url={pathRouters.homePage}
-						loading={sendPostLoading}
-						transit={transit}
-					/>
+					<ButtonsManipulationPosts text="Сохранить" onClick={saveEdit} />
 					<ButtonsManipulationPosts
 						text="Отменить"
 						color="red"
 						onClick={() => {
 							setEdit(false)
 						}}
-						loading={false}
 					/>
 				</PanelForButtonsManipulationPosts>
 			</>
@@ -87,18 +76,8 @@ export default function PostPage() {
 						setInputNewPost(data.post.content)
 						setEdit(true)
 					}}
-					loading={false}
 				/>
-				<ButtonsManipulationPosts
-					text="Удалить пост"
-					color="red"
-					onClick={() => {
-						deletePost()
-					}}
-					url={pathRouters.homePage}
-					loading={sendPostLoading}
-					transit={transit}
-				/>
+				<ButtonsManipulationPosts text="Удалить пост" color="red" onClick={deletePost} />
 			</PanelForButtonsManipulationPosts>
 		</>
 	)
